@@ -96,7 +96,7 @@ graph TB
 ## 🛠️ Tecnologías Utilizadas
 
 ### Backend Core
-- **Laravel 11** - Framework PHP moderno y elegante
+- **Laravel 5.14.0** - Framework PHP moderno y elegante
 - **PHP 8.4** - Última versión con performance mejorado
 - **PostgreSQL 17** - Base de datos robusta y confiable
 
@@ -175,7 +175,7 @@ services:
     environment:
       POSTGRES_DB: agentia
       POSTGRES_USER: agentia  
-      POSTGRES_PASSWORD: 123
+      POSTGRES_PASSWORD: ******
     volumes:
       - ./config/schema_vector.sql:/docker-entrypoint-initdb.d/schema.sql
     ports:
@@ -232,7 +232,7 @@ DB_HOST=127.0.0.1
 DB_PORT=5439
 DB_DATABASE=agentia
 DB_USERNAME=agentia
-DB_PASSWORD=123
+DB_PASSWORD=******
 
 # Sistema de colas
 QUEUE_CONNECTION=database  # o 'sync' para testing
@@ -288,7 +288,8 @@ erDiagram
         timestamp email_verified_at
         string password
         string remember_token
-        timestamps created_at, updated_at
+        timestamp created_at
+        timestamp updated_at
     }
     
     documents {
@@ -300,9 +301,10 @@ erDiagram
         integer file_size
         integer total_pages
         json metadata
-        enum status "processing|completed|failed"
+        string status "processing|completed|failed"
         text processing_error
-        timestamps created_at, updated_at
+        timestamp created_at
+        timestamp updated_at
     }
     
     document_pages {
@@ -316,7 +318,8 @@ erDiagram
         boolean has_embedding
         timestamp embedding_generated_at
         vector embedding "VECTOR(1536)"
-        timestamps created_at, updated_at
+        timestamp created_at
+        timestamp updated_at
     }
     
     jobs {
@@ -326,7 +329,7 @@ erDiagram
         integer attempts
         integer reserved_at
         integer available_at
-        integer created_at
+        timestamp created_at
     }
     
     failed_jobs {
